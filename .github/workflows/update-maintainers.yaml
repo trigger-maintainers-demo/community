@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
   repository_dispatch:
-    types: [trigger-maintainers-update]
+    types: [ trigger-maintainers-update ]
 
 concurrency:
   group: ${{ github.workflow }}
@@ -28,14 +28,10 @@ env:
   GIT_EMAIL: info@asyncapi.io
 
   BRANCH_NAME: "bot/update-maintainers-${{ github.run_id }}"
-  PR_TITLE: "docs(maintainers): Update MAINTAINERS.yaml file with the latest CODEOWNERS changes"
+  PR_TITLE: "docs(maintainers): update MAINTAINERS.yaml file with the latest CODEOWNERS changes"
 
 jobs:
   update-maintainers:
-    permissions:
-      contents: write
-      pull-requests: write
-
     name: Update MAINTAINERS.yaml based on CODEOWNERS files in all organization repositories
     runs-on: ubuntu-latest
     
@@ -71,8 +67,12 @@ jobs:
           
           echo "Timeout reached. Proceeding with updating MAINTAINERS.yaml file with active pull request(s) present. It may result in merge conflict."
           exit 0
+
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # If an action pushes code using the repository’s GITHUB_TOKEN, a pull request workflow will not run.
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -120,7 +120,7 @@ jobs:
       - name: Create PR with latest changes
         if: steps.check_changes.outputs.CHANGES == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config --global user.name "${{ env.GIT_USER }}"
           git config --global user.email ${{ env.GIT_EMAIL }}
@@ -129,8 +129,15 @@ jobs:
           git add -A
           git commit -m "${{ env.PR_TITLE }}"
           git push origin "${{ env.BRANCH_NAME }}" -f
+
+          BODY="
+          **Description**
+            - Update MAINTAINERS.yaml based on CODEOWNERS files across all repositories in the organization.
           
-          gh pr create --title "${{ env.PR_TITLE }}" --body "Updated MAINTAINERS.yaml based on CODEOWNERS files in all organization repositories" --head ${{ env.BRANCH_NAME }}
+          For details on why a maintainer was removed or changed, refer to the [Job summary page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+          "
+
+          gh pr create --title "${{ env.PR_TITLE }}" --body "$BODY" --head ${{ env.BRANCH_NAME }}
 
       - name: Report workflow run status to Slack
         uses: rtCamp/action-slack-notify@4e5fb42d249be6a45a298f3c9543b111b02f7907 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.0
