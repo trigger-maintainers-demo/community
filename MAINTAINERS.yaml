@@ -45,6 +45,7 @@
   availableForHire: true
   isTscMember: false
   repos:
+    - parser
     - core
 - name: V Thulisile Sibanda
   github: thulieblack
