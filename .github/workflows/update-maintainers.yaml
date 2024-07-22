@@ -28,7 +28,7 @@ env:
   GIT_EMAIL: info@asyncapi.io
 
   BRANCH_NAME: "bot/update-maintainers-${{ github.run_id }}"
-  PR_TITLE: "docs(maintainers): Update MAINTAINERS.yaml file with the latest CODEOWNERS changes"
+  PR_TITLE: "docs(maintainers): update MAINTAINERS.yaml file with the latest CODEOWNERS changes"
 
 jobs:
   update-maintainers:
@@ -130,7 +130,14 @@ jobs:
           git commit -m "${{ env.PR_TITLE }}"
           git push origin "${{ env.BRANCH_NAME }}" -f
           
-          gh pr create --title "${{ env.PR_TITLE }}" --body "Updated MAINTAINERS.yaml based on CODEOWNERS files in all organization repositories" --head ${{ env.BRANCH_NAME }}
+          BODY="
+          **Description**
+            - Update MAINTAINERS.yaml based on CODEOWNERS files across all repositories in the organization.
+  
+          For details on why a maintainer was removed or changed, refer to the [Job summary page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+          "
+
+          gh pr create --title "${{ env.PR_TITLE }}" --body "$BODY" --head ${{ env.BRANCH_NAME }}
 
       - name: Report workflow run status to Slack
         uses: rtCamp/action-slack-notify@4e5fb42d249be6a45a298f3c9543b111b02f7907 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.0
