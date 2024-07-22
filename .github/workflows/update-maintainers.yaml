@@ -130,7 +130,14 @@ jobs:
           git commit -m "${{ env.PR_TITLE }}"
           git push origin "${{ env.BRANCH_NAME }}" -f
           
-          gh pr create --title "${{ env.PR_TITLE }}" --body "Updated MAINTAINERS.yaml based on CODEOWNERS files in all organization repositories" --head ${{ env.BRANCH_NAME }}
+          BODY="
+          **Description**
+            - Update MAINTAINERS.yaml based on CODEOWNERS files in all organization repositories
+          
+          To learn more about why a maintainer was removed or changed, see [the GitHub Action summary page](To see the changes, go to: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+          "
+
+          gh pr create --title "${{ env.PR_TITLE }}" --body "$BODY" --head ${{ env.BRANCH_NAME }}
 
       - name: Report workflow run status to Slack
         uses: rtCamp/action-slack-notify@4e5fb42d249be6a45a298f3c9543b111b02f7907 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.0
