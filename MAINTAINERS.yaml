@@ -47,3 +47,11 @@
   repos:
     - core
     - community
+- name: Mateusz Szostok
+  github: mszostok
+  twitter: m_szostok
+  availableForHire: true
+  isTscMember: false
+  repos:
+    - parser
+    - core
