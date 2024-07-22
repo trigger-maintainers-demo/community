@@ -6,4 +6,51 @@
   availableForHire: true
   isTscMember: true
   repos:
-    - website
+    - parser
+    - core
+- name: Lukasz Gornicki
+  github: derberg
+  twitter: derberq
+  availableForHire: true
+  isTscMember: false
+  repos:
+    - parser
+    - core
+    - community
+- name: Akshat Nema
+  github: akshatnema
+  twitter: Aksnema
+  availableForHire: true
+  isTscMember: false
+  repos:
+    - parser
+    - core
+- name: Maciej Urbańczyk
+  github: magicmatatjahu
+  isTscMember: false
+  repos:
+    - parser
+    - core
+- name: Ansh Goyal
+  github: anshgoyalevil
+  twitter: thisisanshg
+  availableForHire: true
+  isTscMember: false
+  repos:
+    - parser
+    - core
+- name: V Thulisile Sibanda
+  github: thulieblack
+  twitter: thulieblack
+  availableForHire: true
+  isTscMember: false
+  repos:
+    - core
+    - community
+- name: Mateusz Szostok
+  github: mszostok
+  twitter: m_szostok
+  availableForHire: true
+  isTscMember: false
+  repos:
+    - core
