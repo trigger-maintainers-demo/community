@@ -136,14 +136,12 @@ async function run() {
 
     const repos = await getRepositories(
       github,
-      // context.repo.owner,
-      "asyncapi",
+      context.repo.owner,
       config.ignoredRepos,
     );
     const codeownersFiles = await getAllCodeownersFiles(
       github,
-      // context.repo.owner,
-      "asyncapi",
+      context.repo.owner,
       repos,
     );
 
