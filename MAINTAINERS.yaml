@@ -15,7 +15,6 @@
   isTscMember: false
   repos:
     - parser
-    - core
     - community
 - name: Akshat Nema
   github: akshatnema
@@ -39,13 +38,6 @@
   repos:
     - parser
     - core
-- name: Mateusz Szostok
-  github: mszostok
-  twitter: m_szostok
-  availableForHire: true
-  isTscMember: false
-  repos:
-    - parser
 - name: V Thulisile Sibanda
   github: thulieblack
   twitter: thulieblack
