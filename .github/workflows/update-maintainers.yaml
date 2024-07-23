@@ -36,6 +36,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # If an action pushes code using the repository’s GITHUB_TOKEN, a pull request workflow will not run.
+          token: ${{ secrets.GH_TOKEN }}
+
       - name: Wait for active pull requests to be merged
         env:
           GH_TOKEN: ${{ github.token }}
@@ -58,6 +64,7 @@ jobs:
                   echo "There is an active pull request. Waiting for it to be merged..."
               else
                   echo "There is no active pull request. Proceeding with updating MAINTAINERS file."
+                  git pull
                   exit 0
               fi
           
@@ -67,12 +74,6 @@ jobs:
           
           echo "Timeout reached. Proceeding with updating MAINTAINERS.yaml file with active pull request(s) present. It may result in merge conflict."
           exit 0
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          # If an action pushes code using the repository’s GITHUB_TOKEN, a pull request workflow will not run.
-          token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
